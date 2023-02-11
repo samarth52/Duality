@@ -3,6 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
+  - pip
   - flask
   - flask_cors
   - pymongo
@@ -12,3 +13,7 @@ dependencies:
   - google-auth
   - google-auth-httplib2
   - google-auth-oauthlib
+  - google-cloud-language
+  - bs4
+  - pip:
+    - GoogleNews
