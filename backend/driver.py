@@ -38,7 +38,7 @@ def root(path):
 
 @app.route("/api/login", methods=["POST"])
 def login():
-    request_data = request.get_json()
+    request_data = json.loads(request.data)
     access_token = request_data.get("accessToken", "")
     try:
         idinfo = id_token.verify_oauth2_token(
@@ -78,7 +78,7 @@ def get_user():
 
 @app.route("/api/new_article", methods=["POST"])
 def new_article():
-    request_data = request.get_json()
+    request_data = json.loads(request.data)
     id = ObjectId(request_data.get("id", ""))
     article_link = request_data.get("link", "")
 
@@ -111,7 +111,7 @@ def new_article():
 
 @app.route("/api/dummy_article", methods=["POST"])
 def dummy_article():
-    request_data = request.get_json()
+    request_data = json.loads(request.data)
     id = ObjectId(request_data.get("id", ""))
     article_data = request_data.get("data", "")
     res = return_links(article_data)
@@ -120,7 +120,7 @@ def dummy_article():
 
 @app.route("/api/recommendation_click", methods=["POST"])
 def recommendation_click():
-    request_data = request.get_json()
+    request_data = json.loads(request.data)
     id = ObjectId(request_data.get("id", ""))
     original_link = request_data.get("originalLink", "")
     sentiment = float(request_data.get("sentiment", 0.0))

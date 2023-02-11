@@ -3,6 +3,7 @@ import Image from "next/image";
 import { styled } from "@/stitches.config";
 import Spacer from "@/components/Spacer";
 import logo from "@/assets/icon.png";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 
 import { motion } from "framer-motion";
 
@@ -18,17 +19,38 @@ const fadeInOut = {
   },
 }
 
+const onSuccess = (googleUser) => {    
+  fetch('http://localhost:3000/api/login', {
+    accessToken: googleUser.getAuthResponse().id_token,
+  })
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+};
+
+const onFailure = (error) => {
+  console.error(error);
+};
+
 export default function Home() {
   return (
-    <Center>
-      <motion.div initial="hidden" animate="visible" variants={fadeInOut}>
-        <Hero>
-        <Image src={logo} alt="logo" width={100} height={100} />
-        <Spacer size={15} axis="horizontal" />
-        <Title>duality</Title>
-        </Hero>
-      </motion.div>
-    </Center>
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+      <Center>
+        <motion.div initial="hidden" animate="visible" variants={fadeInOut}>
+          <Hero>
+          <Image src={logo} alt="logo" width={100} height={100} />
+          <Spacer size={15} axis="horizontal" />
+          <Title>duality</Title>
+          </Hero>
+          <GoogleLogin buttonText="Login with Google"
+              onSuccess={onSuccess}
+              onFailure={onFailure} />
+        </motion.div>
+      </Center>
+    </GoogleOAuthProvider>
   );
 }
 
