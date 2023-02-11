@@ -1,10 +1,4 @@
-from pymongo import MongoClient
-import os
-
-client = MongoClient(os.getenv("MONGO_URI"))
-db = client[os.getenv("MONGO_DB")]
-
-vexpr = {"$jsonSchema": {
+schema = {"$jsonSchema": {
     "bsonType": "object",
     "required": ["userId"],
     "properties": {
@@ -71,16 +65,3 @@ vexpr = {"$jsonSchema": {
         },
     }
 }}
-
-
-def add_validator():
-    db.command("collMod", "users", validator=vexpr, validationLevel="moderate")
-
-
-def recreate_collection():
-    try:
-        db.users.drop()
-    except:
-        pass
-    db.create_collection("users")
-    add_validator()
