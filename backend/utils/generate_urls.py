@@ -5,8 +5,9 @@ from bs4 import BeautifulSoup
 import os
 from GoogleNews import GoogleNews
 import time
+from dotenv import load_dotenv
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "C:/Projects/Hacklytics2023/Duality/backend/utils/white-outlook-377503-a6f6da67ebad.json"
+load_dotenv()
 client = language_v1.LanguageServiceClient()
 
 
