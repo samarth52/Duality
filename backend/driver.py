@@ -1,5 +1,5 @@
-from backend.utils.generate_urls import return_links
-from backend.mongodb.actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article
+
+
 import os
 import json
 from dotenv import load_dotenv
@@ -13,7 +13,8 @@ from google.auth.transport import requests
 load_dotenv()
 client = MongoClient(os.getenv("MONGO_URI"))
 
-
+from backend.mongodb.actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article
+from backend.utils.generate_urls import return_links
 # from backend.middleware import middleware
 
 app = Flask(
@@ -111,8 +112,9 @@ def new_article():
 @app.route("/api/dummy_article", methods=["POST"])
 def dummy_article():
     request_data = request.get_json()
-    id = request_data.get("id", default="", type=ObjectId)
-    article_data = request_data.get("data", default="", type=str)
+    print(request_data)
+    # id = request_data.get("id", default="", type=ObjectId)
+    article_data = request_data
     res = return_links(article_data)
     return success_response({"data": res})
 
