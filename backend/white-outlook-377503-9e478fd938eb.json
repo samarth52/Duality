@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "white-outlook-377503",
+  "private_key_id": "9e478fd938ebdf25c4b54138a09e8de81f692e22",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDALAzZPy5LwmGG\nGlRZpNyYUr/FKH+jPCBraLckqAyWC3iXEBJbT7DNcTeCN+DSwtAVkteXvNSTeBcp\nanSIYgzY3DboAh3HtdDW8oLSQA1Yb4pLus9qh+y1KyDczBEu03Ag5IOCVivQIRt3\neqdjK6/3IFrCA43jEZKP7zLvrNMDVc7v51T3NFJwPRNP0U+OTUyj5mSIHqYnPSk1\n+luboagqO+7CzrriQAH3F1YSb+Czi4SJLo7gFJPvHTLLyS3LvyZlUMa9CWZAzz3u\nPjQEjybtzFryB0oed3MDne7NSvSz7HC0fVm9lsM8/KG6wclax2JDuWJvREZAcnSw\ng4yREpuRAgMBAAECggEAAdzzd3A5v02IQ0PyVSeoZVgpCIzs1tzsfgoW+3WfIJ3G\nGqXS3byDLOy38mzfAsAVgx4INc4EfBUGGXZRIKjdscUJybxKhF8Ggiz5+HabQoQb\nUcJjBCgC8xsyz30xffQaElGQ1lTGSjdl9CW15XvdEf7n7llZOO44zuktY943sgCw\nxsm9n+6uq3ves4uj7iEJ4g6ecclRwxIVfvCk0CBqHX2794ENljjiL1VlinL1Mei3\n2CiW24PB9TwYZrhAIVhUY4LDfU66yuP/u+8WOpKJgL71B/CLSR3gF9rpT3pvf8Pn\nxEza2Hl33Whln7MJ91lFeJpPMPnZKytaVKxFzunDgQKBgQDxi+igqfRM09PWHno+\n/y98wjVozJPj2AWLiijg2MX6++FdGkQAOyMgMXvibOef2EAnqVtArbBImuum2X0k\nA5rhv1lB/XMhA/vMyXq6pdiQxj0W0AsZ2UE4ahr43Ge0dBVNtyuEwNwYM+pcdXeX\ntrvErEcOUFE46jG42DQUUODUQQKBgQDLq86XbIDMlRegCnj4LNGOXrGjLjcVwafm\nlqjVqO4DI9aIGAop5YaVO2AscZuI+yjPzd9JHlnUX01xoVny4Mkqkt4vdBqWLKRz\n1wX9XDBJL2HTti0NM99EOh7SIFUIQ7TgU1e3V1vL+RnpxVmjqOKkPW8WaSuAkAL8\nzdfpzAazUQKBgFFT3CWMU7cyc1bauCpR3XlSIo2ApCLI70UGZbEfC7nv6PdiCpdR\nUgha4O1h4bMOKruv6Auk73/iuYlaHSptFE8CEFmJrqPlJXjUNcB2aq6EMLlnnvU7\nExydjStRepFlrG6YR8zQ6sozYKt02al5W0ti/iGxpUdWgxtLoG1etfSBAoGAfb6v\nKBIXWzfZhDezBBY3sxyHs+W+oLIVhWoTBwbrHAkuVIvzCnbpJo2oDQh/LI1UXygN\n6UjR0Sqd17/0lt1tldljUAzwtTMOvW5OBmS6cxTL4zggjHwwJiF0EetgVF/o9m6+\nQzWuOTqsYwYzF7YXZ6t+QGniL9e54Hb+DRyoLmECgYAGKfWK1lzdhv4x7LRA7TyM\nIkAgwQWvIAgilcQy0ocFVn+8fC0FsgpXcrSoZ/suRiwGADVh/MuuudzcNGldcr04\nuJ9FQ8QTG3CfNpo3r+g+I3WFkLHrVz7QQVbOyC6hYwF5k8uEaqZdn9chsGb4W9jf\nVnW1A5Kh/2C7/wUGk/rLqA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "duality@white-outlook-377503.iam.gserviceaccount.com",
+  "client_id": "116222549873580032826",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/duality%40white-outlook-377503.iam.gserviceaccount.com"
+}
