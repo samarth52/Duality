@@ -1,0 +1,10 @@
+name: duality
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - flask
+  - flask_cors
+  - pymongo
+  - autopep8
+  - python-dotenv
