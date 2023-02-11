@@ -16,8 +16,7 @@
         "scripts/content.js"
       ],
       "matches": [
-        "https://developer.chrome.com/docs/extensions/*",
-        "https://developer.chrome.com/docs/webstore/*"
+        "https://*/*"
       ]
     }
   ],
@@ -25,6 +24,15 @@
     "default_popup": "popup.html"
   },
   "host_permissions": [
-    "https://developer.chrome.com/*"
-  ]
+    "https://*/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [ "images/duality_icon.png" ],
+      "matches": [ "https://*/*" ]
+    }
+  ],
+  "background": {
+    "service_worker": "scripts/background.js"
+  }
 }
