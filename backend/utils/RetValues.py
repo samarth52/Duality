@@ -5,9 +5,8 @@ from bs4 import BeautifulSoup
 import os
 from GoogleNews import GoogleNews
 import time
-from dotenv import load_dotenv
 
-load_dotenv()
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="/Users/devang/Desktop/Duality/white-outlook-377503-a6f6da67ebad.json"
 client = language_v1.LanguageServiceClient()
 
 
@@ -122,3 +121,56 @@ def return_links(text):
         res_links.append(ret_link)
 
     return res_links
+
+def return_neutral(text):
+    text = ' '.join(get_main_topic(text))
+    sent = get_overall_Sentiment(text)
+    res_links = []
+    page = 1
+    min_sent = 0.0
+    ret_link = None
+    
+    if sent != 0.0:
+         while page < 4:
+            t = time.time()
+            news = get_news_results("news on " + text)
+            news.get_page(page)
+            links = news.results()[:10]
+            link_sents = [get_link_sentiment(
+            link['link'], link['title']) for link in links]
+            if min_sent in link_sents:
+               ret_link = links[link_sents.index(min_sent)]['link'] 
+               break;
+            page+=1
+         res_links.append(ret_link)
+            
+    return res_links
+
+def get_imp_info(name):
+    url = "https://www.forbes.com/sites/jackkelly/2023/02/07/google-layoffs-show-you-must-look-out-for-yourself/?sh=a207db354c2a"
+    page = requests.get(url)
+    main_info = get_content(url,"t")
+    result = ""
+    imp_values=[]
+    currKeywords = ' '.join(get_main_topic(main_info))
+    imp_values.append(currKeywords)
+    imp_values.append(get_overall_Sentiment(main_info))
+
+    neutralArticle = return_neutral(main_info)
+    neutralArticle = ''.join(neutralArticle)
+    page2 = requests.get(neutralArticle)
+    neutContent = get_content(neutralArticle,"t")
+    neutKey = (' '.join(get_main_topic(neutContent)))
+    imp_values.append(neutKey)
+    imp_values.append(get_overall_Sentiment(neutKey))
+
+    oppArticle = return_links(main_info)
+    oppArticle = ''.join(oppArticle)
+    page1 = requests.get(oppArticle)
+    oppArticle = str(oppArticle)
+    oppContent = get_content(oppArticle,"t")
+    oppKey = (' '.join(get_main_topic(oppContent)))
+    imp_values.append(get_overall_Sentiment(oppKey))
+    imp_values.append(oppContent)
+    return imp_values
+

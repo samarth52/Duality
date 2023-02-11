@@ -2,6 +2,9 @@ import os
 from pymongo import MongoClient
 from typing import List
 from backend.mongodb.schema import schema
+from dotenv import load_dotenv
+
+load_dotenv()
 
 client = MongoClient(os.getenv("MONGO_URI"))
 db = client[os.getenv("MONGO_DB")]

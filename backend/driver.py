@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> cb4a09a010d63c18c47f3e0842dd14d1bcf6dc27
 import os
 import json
 from dotenv import load_dotenv
@@ -13,8 +16,15 @@ from google.auth.transport import requests
 load_dotenv()
 client = MongoClient(os.getenv("MONGO_URI"))
 
+<<<<<<< HEAD
 from backend.mongodb.actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article
 from backend.utils.generate_urls import return_links
+=======
+from backend.utils.generate_urls import return_links
+from backend.mongodb.actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article
+
+
+>>>>>>> cb4a09a010d63c18c47f3e0842dd14d1bcf6dc27
 # from backend.middleware import middleware
 
 app = Flask(
@@ -38,8 +48,8 @@ def root(path):
 
 @app.route("/api/login", methods=["POST"])
 def login():
-    request_data = request.get_json()
-    access_token = request_data.get("accessToken", default="", type=str)
+    request_data = json.loads(request.data)
+    access_token = request_data.get("accessToken", "")
     try:
         idinfo = id_token.verify_oauth2_token(
             access_token, requests.Request(), os.get_env("GOOGLE_CLIENT_ID"))
@@ -78,9 +88,9 @@ def get_user():
 
 @app.route("/api/new_article", methods=["POST"])
 def new_article():
-    request_data = request.get_json()
-    id = request_data.get("id", default="", type=ObjectId)
-    article_link = request_data.get("link", default="", type=str)
+    request_data = json.loads(request.data)
+    id = ObjectId(request_data.get("id", ""))
+    article_link = request_data.get("link", "")
 
     try:
         res = check_article(id, article_link)
@@ -121,10 +131,10 @@ def dummy_article():
 
 @app.route("/api/recommendation_click", methods=["POST"])
 def recommendation_click():
-    request_data = request.get_json()
-    id = request_data.get("id", default="", type=ObjectId)
-    original_link = request_data.get("original_link", default="", type=str)
-    sentiment = request_data.get("sentiment", default="", type=float)
+    request_data = json.loads(request.data)
+    id = ObjectId(request_data.get("id", ""))
+    original_link = request_data.get("originalLink", "")
+    sentiment = float(request_data.get("sentiment", 0.0))
     return success_response()
 
 
