@@ -109,7 +109,7 @@ def new_article():
 
 
 @app.route("/api/dummy_article", methods=["POST"])
-def new_article():
+def dummy_article():
     request_data = request.get_json()
     id = request_data.get("id", default="", type=ObjectId)
     article_data = request_data.get("data", default="", type=str)
