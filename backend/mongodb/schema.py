@@ -58,8 +58,15 @@ schema = {"$jsonSchema": {
                 "bsonType": "object",
                 "properties": {
                     "topic": {"type": "string"},
-                    "count": {"type": "number"},
-                    "sentiment": {"type": "number"},
+                    "sentiments": {
+                        "bsonType": "array",
+                        "items": {
+                            "type": "number",
+                        },
+                    },
+                    "absolute_sentiment": {
+                        "type": "number",
+                    },
                 },
             },
         },
