@@ -1,7 +1,9 @@
 {
   "name": "duality",
   "scripts": {
+    "installb": "conda env create -f backend/conda/environment.yml",
+    "installf": "cd frontend && yarn install",
     "startb": "conda activate duality && python -m backend.driver",
-    "startf": "cd frontend && npm start"
+    "startf": "cd frontend && yarn dev"
   }
 }
