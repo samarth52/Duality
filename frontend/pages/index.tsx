@@ -4,6 +4,7 @@ import { styled } from "@/stitches.config";
 import Spacer from "@/components/Spacer";
 import logo from "@/assets/icon.png";
 import { motion } from "framer-motion";
+
 import GoogleLogin from "@/components/GoogleLogin/GoogleLogin";
 
 const fadeInOut = {

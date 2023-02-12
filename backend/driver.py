@@ -12,10 +12,7 @@ load_dotenv()
 client = MongoClient(os.getenv("MONGO_URI"))
 
 from backend.utils.generate_urls import return_links
-from backend.mongodb.actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article, get_topic_sentiments
-
-
-# from backend.middleware import middleware
+from backend.mongodb.actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article, get_topic_sentiments, visited_opposite
 
 app = Flask(
     __name__,
@@ -24,7 +21,6 @@ app = Flask(
     ),
 )
 CORS(app)
-# app.wsgi_app = middleware(app.wsgi_app)
 
 
 @app.route("/", defaults={"path": ""})
@@ -65,17 +61,6 @@ def scripts():
     return success_response()
 
 
-@app.route("/api/get_user", methods=["GET"])
-def get_user():
-    args = request.args
-    id = args.get("id", default="", type=ObjectId)
-    user = get_user(id)
-    if (user):
-        return success_response({"user": user})
-    else:
-        return failure_response("User not found", 401)
-
-
 @app.route("/api/new_article", methods=["POST"])
 def new_article():
     request_data = json.loads(request.data)
@@ -84,7 +69,6 @@ def new_article():
 
     try:
         res = check_article(id, article_link)
-        # get the neutral link, neutral sentiment, opposite link, opposite sentiment from db if article already exists
         if (res):
             return success_response({
                 "neutral_link": res["articles"][0]["neutral_link"],
@@ -100,8 +84,7 @@ def new_article():
         add_article(id, article_link, article_sentiment, article_topics,
                     neutral_link, neutral_sentiment, opposite_link, opposite_sentiment)
         return success_response({
-            "neutral_link": neutral_link,
-            "neutral_sentiment": neutral_sentiment,
+            "original_link": article_link,
             "opposite_link": opposite_link,
             "opposite_sentiment": opposite_sentiment,
         })
@@ -123,23 +106,65 @@ def recommendation_click():
     request_data = json.loads(request.data)
     id = ObjectId(request_data.get("id", ""))
     original_link = request_data.get("originalLink", "")
-    sentiment = float(request_data.get("sentiment", 0.0))
+    visited_opposite(id, original_link)
     return success_response()
 
 @app.route("/api/sentiment_graph", methods=["POST"])
 def sentiment_graph():
     request_data = json.loads(request.data)
     id = ObjectId(request_data.get("id", ""))
+    topics = list(request_data.get("topics", []))
     
-    # get_topic_sentiments(id, topic)
-    # {'topic': 't2', 'sentiments': [4, 4.5], 'absolute_sentiment': 6.5}
-    # enter your code here
+    num_lists = len(topics)
+    topics = [get_topic_sentiments(id, topic)["sentiments"] for topic in topics]
+
+    lengths = [len(l["sentiments"]) for l in topics]
+    max_num_elements = max(lengths)
+    sums = [0] * max_num_elements
+    for i in range(max_num_elements):
+        for j in range(num_lists):
+            if i < len(lengths[j]):
+                sums[i] += topics[j]['sentiments'][i]
+    avg_sentiment = [sum / num_lists for sum in sums]
     
-    return success_response()
+    return success_response({"avgSentiment": avg_sentiment})
+
+@app.route("/api/dashboard_data", methods=["GET"])
+def dashboard_data():
+    args = request.args
+    id = args.get("id", default="", type=ObjectId)
+    user = get_user(id)
+    if (user):
+        topic_frequency = []
+        total_abs_sentiment = 0
+        sentiment_count = 0
+        for topic_record in user["topics"]:
+            topic_frequency.append([topic_record["topic"], len(topic_record["sentiments"])])
+            sentiment_count += len(topic_record["sentiments"])
+            total_abs_sentiment += topic_record["absolute_sentiment"]
+        avg_abs_sentiment = round(total_abs_sentiment / sentiment_count * 100) if sentiment_count > 0 else 0
+        
+        articles = user["articles"]
+        
+        recent_20_articles = articles[:-21:-1]
+        num_visited = 0
+        for article in recent_20_articles:
+            num_visited += int(article["opposite"]["visited"])
+        duality_ratio = [num_visited / len(recent_20_articles) if len(recent_20_articles) > 0 else 0, num_visited, len(recent_20_articles)]
+        
+        recent_10_articles = articles[:-11:-1]        
+        return success_response({
+            "topicFrequency": topic_frequency,
+            "avgSentiment": avg_abs_sentiment,
+            "dualityRatio": duality_ratio,
+            "recentArticles": recent_10_articles,
+        })
+    else:
+        return failure_response("User not found", 401)
 
 @app.route("/api/test", methods=["GET"])
 def test():
-    print(get_topic_sentiments(ObjectId("63e7c2b7c76d10c07348c2f3"), "t2"))
+    # print(get_topics(ObjectId("63e7c2b7c76d10c07348c2f3")))
     return success_response()
 
 

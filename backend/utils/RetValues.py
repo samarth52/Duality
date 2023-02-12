@@ -1,15 +1,6 @@
-from google.cloud.language_v1 import types
-from google.cloud import language_v1
-import requests
-from bs4 import BeautifulSoup
-import os
-from GoogleNews import GoogleNews
-import time
-import current_url
-import generate_urls
+import backend.utils.generate_urls as generate_urls
 
-def get_imp_info():
-    url = current_url.url
+def get_imp_info(url: str):
     page = generate_urls.requests.get(url)
     main_info = generate_urls.get_content(url,"t")
     result = ""
@@ -17,14 +8,6 @@ def get_imp_info():
     currKeywords = ' '.join(generate_urls.get_main_topic(main_info))
     imp_values.append(currKeywords)
     imp_values.append(generate_urls.get_overall_Sentiment(main_info))
-
-    neutralArticle = generate_urls.return_neutral(main_info)
-    neutralArticle = ''.join(neutralArticle)
-    page2 = generate_urls.requests.get(neutralArticle)
-    neutContent = generate_urls.get_content(neutralArticle,"t")
-    neutKey = (' '.join(generate_urls.get_main_topic(neutContent)))
-    imp_values.append(neutKey)
-    imp_values.append(generate_urls.get_overall_Sentiment(neutKey))
 
     oppArticle = generate_urls.return_links(main_info)
     oppArticle = ''.join(oppArticle)
@@ -35,6 +18,8 @@ def get_imp_info():
     imp_values.append(generate_urls.get_overall_Sentiment(oppKey))
     imp_values.append(oppContent)
     return imp_values
+
+print(get_imp_info("https://www.whitehouse.gov/briefing-room/statements-releases/2023/02/11/readout-of-president-bidens-call-with-prime-minister-trudeau-of-canada-2/"))
 
 
 # from google.cloud.language_v1 import types
