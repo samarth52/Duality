@@ -8,6 +8,8 @@ import Search from "@/components/Search";
 import WelcomeCard from "@/components/WelcomeCard";
 import BubbleCard from "@/components/BubbleCard";
 import LineChart from "@/components/LineChart";
+import RecapCard from "@/components/RecapCard";
+import FooterCard from "@/components/FooterCard";
 import { useEffect, useState } from "react";
 
 const fadeInOut = {
@@ -40,7 +42,7 @@ export default function Dashboard() {
           method: "GET",
         }).then((data2) => {
           data2.json().then((data3) => {
-            console.log(data3)
+            console.log(data3);
             setUser(data.id);
             setArticles(data3.recentArticles);
             setTopics(data3.topicFrequency);
@@ -57,15 +59,20 @@ export default function Dashboard() {
       <Hero>
         <Navbar />
         <Spacer size={15} />
-        <Search articles={articles}/>
+        <Search articles={articles} />
         <Spacer size={15} />
-        <ParentGrid>
-          <WelcomeCard score={dualityRatio[0]} />
+        <MegaFlex>
+          <ParentGrid>
+            <WelcomeCard score={dualityRatio[0]} />
             <FlexPartition>
             <LineChart tags={[...topics.map((topic : any) => topic[0])]} user={user}/>
             <BubbleCard keyWords={topics} />
             </FlexPartition>
-        </ParentGrid>
+          </ParentGrid>
+          <RecapCard />
+        </MegaFlex>
+        <Spacer size={15} />
+        <FooterCard />
       </Hero>
     </PrivateRoute>
   ) : null;
@@ -77,14 +84,22 @@ const Hero = styled("div", {
   marginLeft: "auto",
   marginRight: "auto",
   marginTop: "8vh",
+  paddingBottom: "8vh",
   width: "60vw",
   gap: 10,
+});
+
+const MegaFlex = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  gap: 30,
 });
 
 const ParentGrid = styled("div", {
   display: "grid",
   gridTemplateColumns: "repeat(2, 1fr)",
-  gridTemplateRows: "repeat(4, 1fr)",
+  gridTemplateRows: "repeat(1, 1fr)",
   gap: 30,
 });
 
