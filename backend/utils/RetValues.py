@@ -18,9 +18,10 @@ def get_imp_info(url: str):
     oppArticle = ''.join(oppArticle)
     page1 = generate_urls.requests.get(oppArticle)
     oppArticle = str(oppArticle)
-    imp_values.append(generate_urls.get_overall_Sentiment(oppArticle))
+    oppContent = generate_urls.get_content(oppArticle,"t")
+    imp_values.append(generate_urls.get_overall_Sentiment(oppContent))
     imp_values.append(oppArticle)
-    # oppContent = generate_urls.get_content(oppArticle,"t")
+    
     # oppKey = (' '.join(generate_urls.get_main_topic(oppContent)))
     
     # imp_values.append(oppContent)
