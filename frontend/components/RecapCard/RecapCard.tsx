@@ -42,7 +42,7 @@ import Image from "next/image";
 //   );
 // }
 
-function RecapCard({articles}) {
+function RecapCard({articles} : {articles: any}) {
   const [items, setItems] = useState<any>([]);
   useEffect(() => {
     async function getItems() {
