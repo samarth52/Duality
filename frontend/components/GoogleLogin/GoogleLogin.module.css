@@ -1,0 +1,21 @@
+.google_icon {
+    height: auto;
+}
+
+.google_login_button {
+    background-color: #2c2c2c;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 20px;
+    font-size: 20px;
+    cursor: pointer;
+    width: 11ch;
+}

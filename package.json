@@ -5,5 +5,8 @@
     "installf": "cd frontend && yarn install",
     "startb": "conda activate duality && python -m backend.driver",
     "startf": "cd frontend && yarn dev"
+  },
+  "dependencies": {
+    "firebase": "^9.17.1"
   }
 }
