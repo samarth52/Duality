@@ -69,7 +69,7 @@ export default function Dashboard() {
             <BubbleCard keyWords={topics} />
             </FlexPartition>
           </ParentGrid>
-          <RecapCard />
+          <RecapCard articles={articles} />
         </MegaFlex>
         <Spacer size={15} />
         <FooterCard />
