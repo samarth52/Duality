@@ -37,11 +37,6 @@ if (article) {
       
     }
 
-    .duality_popup:hover {
-      height: 200px;
-      padding-bottom: 15px;
-    }
-
     .duality_popup_header_container {
       display: flex;
       align-items: center;
@@ -78,6 +73,11 @@ if (article) {
             padding-right: 10px;
             font-size: 20px;
             color: #000;
+          }
+
+          .duality_popup:hover {
+            height: 200px;
+            padding-bottom: 15px;
           }
         </style>`;
         document
