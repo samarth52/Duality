@@ -6,6 +6,8 @@ import { useAuth } from "@/components/Firebase/Auth";
 import Navbar from "@/components/Navbar";
 import Search from "@/components/Search";
 import WelcomeCard from "@/components/WelcomeCard";
+import BubbleCard from "@/components/BubbleCard";
+import LineChart from "@/components/LineChart";
 import { useEffect, useState } from "react";
 
 const fadeInOut = {
@@ -59,6 +61,10 @@ export default function Dashboard() {
         <Spacer size={15} />
         <ParentGrid>
           <WelcomeCard score={dualityRatio[0]} />
+            <FlexPartition>
+            <LineChart />
+            <BubbleCard />
+            </FlexPartition>
         </ParentGrid>
       </Hero>
     </PrivateRoute>
@@ -79,5 +85,13 @@ const ParentGrid = styled("div", {
   display: "grid",
   gridTemplateColumns: "repeat(2, 1fr)",
   gridTemplateRows: "repeat(4, 1fr)",
+  gap: 30,
+});
+
+const FlexPartition = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  alignItems: "center",
   gap: 30,
 });
