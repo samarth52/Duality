@@ -1,140 +1,90 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { styled } from "@/stitches.config";
+import Spacer from "@/components/Spacer";
 
-function move(array: any, fromIndex: number, toIndex: number) {
-  const element = array[fromIndex];
-  array.splice(fromIndex, 1);
-  array.splice(toIndex, 0, element);
-  return array;
-}
+import Image from "next/image";
 
-const CARD_COLORS = ["#266678", "#cb7c7a", " #36a18b", "#cda35f", "#747474"];
-const CARD_OFFSET = 10;
-const SCALE_FACTOR = 0.06;
-
-const CardStack = () => {
-  const [cards, setCards] = useState(CARD_COLORS);
-  
-  const moveToEnd = (from: any) => {
-    setCards(move(cards, from, cards.length - 1));
-  };
-
-  return (
-    <WrapperStyle>
-      hi
-      <CardWrapStyle>
-        {cards.map((color, index) => {
-          const canDrag = index === 0;
-          return (
-            <motion.li
-              key={color}
-              style={{
-                position: "absolute",
-                width: "350px",
-                height: "220px",
-                borderRadius: "8px",
-                transformOrigin: "top center",
-                listStyle: "none",
-                backgroundColor: color,
-                cursor: canDrag ? "grab" : "auto",
-              }}
-              animate={{
-                top: index * -CARD_OFFSET,
-                scale: 1 - index * SCALE_FACTOR,
-                zIndex: CARD_COLORS.length - index,
-              }}
-              drag={canDrag ? "y" : false}
-              dragConstraints={{
-                top: 0,
-                bottom: 0,
-              }}
-              onDragEnd={() => moveToEnd(index)}
-            />
-          );
-        })}
-      </CardWrapStyle>
-    </WrapperStyle>
-  );
-};
+// function Card() {
+//   return (
+//     <div className="card">
+//       <div className="card__imgContainer">
+//         <span className="card__imgOverlay">
+//           <svg
+//             className="card__imgOverlayViewIcon"
+//             width={48}
+//             height={48}
+//             xmlns="http://www.w3.org/2000/svg"
+//           >
+//             <g fill="none" fillRule="evenodd">
+//               <path d="M0 0h48v48H0z" />
+//               <path
+//                 d="M24 9C14 9 5.46 15.22 2 24c3.46 8.78 12 15 22 15 10.01 0 18.54-6.22 22-15-3.46-8.78-11.99-15-22-15Zm0 25c-5.52 0-10-4.48-10-10s4.48-10 10-10 10 4.48 10 10-4.48 10-10 10Zm0-16c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6Z"
+//                 fill="#FFF"
+//                 fillRule="nonzero"
+//               />
+//             </g>
+//           </svg>
+//         </span>
+//         <img
+//           width="300px"
+//           height="300px"
+//           src="https://raw.githubusercontent.com/mohammadjarabah/codepen-assets/main/pens/dyjrRrX/images/equilibrium.jpg"
+//           alt="Equilibrium Image"
+//           className="card__img"
+//         />
+//       </div>
+//       <a href="#emptyLink" className="card__title">
+//         Equilibrium #3429
+//       </a>
+//       <p className="card__desc">From US News</p>
+//     </div>
+//   );
+// }
 
 function RecapCard() {
   return (
     <Wrapper>
-      <Container>
-        <Heading>Today's Recap</Heading>
-        <CardStack />
-        {/* <Cards>{renderCards()}</Cards> */}
-      </Container>
+      <Content>
+        <Title>
+          Recently, you ignored 5 of our suggestions which could have given you
+          different perspectives.{" "} 
+        </Title>
+        <Spacer size={10} />
+        <Sub>Chinese spy balloon - live: Pentagon retrieving second car size object shot down bby F22 jets over Alaska.</Sub>
+      </Content>
     </Wrapper>
   );
 }
 
-const WrapperStyle = styled("div", {
-  position: "relative",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  height: "100vh",
-});
-
-const CardWrapStyle = styled("ul", {
-  position: "relative",
-  width: "350px",
-  height: "220px",
+const Sub = styled("span", {
+  background: "#aaa",
+  padding: "5px 10px",
+  margin: "0 5px",
+  width: "fit-content",
+  fontSize: "1.2rem",
+  borderRadius: "8px",
+  color: "#000",
+  transition: "all 0.2s ease-in-out",
+  "&:hover": {
+    color: "#fff",
+  },
 });
 
 const Wrapper = styled("div", {
-  width: "100%",
-  height: "300px",
   backgroundColor: "$grayOne",
-  borderRadius: "38px",
-  position: "relative",
-  // boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.1)",
-  overflow: "hidden",
+  borderRadius: "30px",
 });
 
-const Container = styled("div", {
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-  padding: "50px 80px",
-  width: "100%",
-  position: "relative",
+const Content = styled("div", {
+  padding: 25,
 });
 
-const Heading = styled("h1", {
-  fontSize: "2rem",
-  color: "$white",
-  fontWeight: "700",
-  textAlign: "center",
-  lineHeight: 1,
+const Title = styled("h1", {
+  color: "#aaa",
+  fontSize: "1.5rem",
 });
 
-const Cards = styled("div", {
-  height: "200px",
-  width: "100%",
-  display: "grid",
-  placeItems: "center center",
-});
 
-const SingleCard = styled("div", {
-  position: "absolute",
-  left: 0,
-  top: 0,
-  height: 150,
-  width: 150,
-  borderRadius: 15,
-  color: "$white",
-  display: "grid",
-  placeItems: "center center",
-  padding: 10,
-  "& > p": {
-    fontSize: "1.2rem",
-    fontWeight: "700",
-    textAlign: "center",
-  },
-});
 
 export default RecapCard;

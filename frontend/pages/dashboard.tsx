@@ -61,16 +61,17 @@ export default function Dashboard() {
         <Spacer size={15} />
         <Search articles={articles} />
         <Spacer size={15} />
-        <MegaFlex>
-          <ParentGrid>
-            <WelcomeCard score={dualityRatio[0]} />
-            <FlexPartition>
-              <LineChart />
-              <BubbleCard keyWords={topics} />
-            </FlexPartition>
-          </ParentGrid>
-          <RecapCard />
-        </MegaFlex>
+
+        <ParentGrid>
+          <WelcomeCard score={dualityRatio[0]} />
+          <FlexPartition>
+            <LineChart />
+            <BubbleCard keyWords={topics} />
+          </FlexPartition>
+        </ParentGrid>
+
+        <Spacer size={15} />
+        <RecapCard />
         <Spacer size={15} />
         <FooterCard />
       </Hero>
