@@ -7,6 +7,7 @@
     "startf": "cd frontend && yarn dev"
   },
   "dependencies": {
-    "firebase": "^9.17.1"
+    "firebase": "^9.17.1",
+    "open-graph-scraper": "^5.0.5"
   }
 }
