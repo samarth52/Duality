@@ -10,7 +10,7 @@ import logo from "@/assets/icon.png";
 import { ChevronDown } from "react-feather";
 
 const avatar = createAvatar(adventurerNeutral, {
-  seed: "yatharth gay",
+  seed: "mom",
   radius: 50,
 });
 
@@ -21,9 +21,9 @@ export default function Navbar() {
     <Wrapper>
       <Date>23rd January</Date>
       <Logo>
-        <Image src={logo} alt="logo" width={50} height={50} />
+        <Image src={logo} alt="logo" width={50} height={50} draggable={false} />
         <Spacer size={15} axis="horizontal" />
-        <h1>duality</h1>
+        <h1 draggable={false}>duality</h1>
       </Logo>
       <Profile />
     </Wrapper>
@@ -71,6 +71,7 @@ const Logo = styled("div", {
     fontWeight: 900,
     color: "$white",
     pointerEvents: "none",
+    userSelect: "none",
     draggable: "false",
     textTransform: "uppercase",
     letterSpacing: "0.15em",
@@ -89,5 +90,5 @@ const ProfileWrapper = styled("div", {
 const ProfileContainer = styled("div", {
   display: "flex",
   alignItems: "center",
-  gap: 10
+  gap: 10,
 });

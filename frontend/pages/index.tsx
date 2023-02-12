@@ -3,7 +3,9 @@ import Image from "next/image";
 import { styled } from "@/stitches.config";
 import Spacer from "@/components/Spacer";
 import logo from "@/assets/icon.png";
+
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import type { CredentialResponse } from "@react-oauth/google";
 
 import { motion } from "framer-motion";
 
@@ -19,7 +21,7 @@ const fadeInOut = {
   },
 }
 
-const onSuccess = (googleUser) => {    
+const onSuccess = (googleUser: CredentialResponse) => {    
   fetch('http://localhost:3000/api/login', {
     accessToken: googleUser.getAuthResponse().id_token,
   })
@@ -31,7 +33,7 @@ const onSuccess = (googleUser) => {
     });
 };
 
-const onFailure = (error) => {
+const onFailure = (error: any) => {
   console.error(error);
 };
 

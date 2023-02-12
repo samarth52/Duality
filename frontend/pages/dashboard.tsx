@@ -7,6 +7,7 @@ import logo from "@/assets/icon.png";
 import { motion } from "framer-motion";
 
 import Navbar from "@/components/Navbar";
+import Search from "@/components/Search";
 
 const fadeInOut = {
   hidden: { scale: 0.8, opacity: 0 },
@@ -23,17 +24,21 @@ const fadeInOut = {
 export default function Dashboard() {
   return (
     <Hero>
-        <Navbar />
+      <Navbar />
+      <Spacer size={20} />
+      <Search />
     </Hero>
   );
 }
-
 
 const Hero = styled("div", {
   display: "flex",
   flexDirection: "column",
   marginLeft: "auto",
   marginRight: "auto",
+  marginTop: "8vh",
+  width: "60vw",
+  gap: 10
 });
 
 const Title = styled("h1", {
