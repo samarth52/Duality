@@ -7,7 +7,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       chrome.storage.local.remove("id");
       return true;
     }
-    fetch("http://127.0.0.1:8000/api/login", {
+    fetch("https://backend-yfr22mc5la-ue.a.run.app/api/login", {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -32,7 +32,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         return true;
       } else {
         if (request.type && request.type == "suggestion") {
-          fetch("http://127.0.0.1:8000/api/recommendation_click", {
+          fetch("https://backend-yfr22mc5la-ue.a.run.app/api/recommendation_click", {
             method: "POST", // *GET, POST, PUT, DELETE, etc.
             mode: "cors", // no-cors, *cors, same-origin
             cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -47,7 +47,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
           });
           return true;
         }
-        fetch("http://127.0.0.1:8000/api/new_article", {
+        fetch("https://backend-yfr22mc5la-ue.a.run.app/api/new_article", {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           mode: "cors", // no-cors, *cors, same-origin
           cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
