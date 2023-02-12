@@ -4,11 +4,11 @@ def get_imp_info(body: str):
     imp_values=[]
     topics = generate_urls.get_main_topic(body)
     currKeywords = ' '.join(topics)
-    imp_values.append(topics)
     # print(topics)
     # currKeywords = ' '.join(generate_urls.get_main_topic(main_info))
     # imp_values.append(currKeywords)
     imp_values.append(generate_urls.get_overall_Sentiment(body))
+    imp_values.append(topics)
 
     oppArticle = generate_urls.return_links(body)
     oppArticle = ''.join(oppArticle)
