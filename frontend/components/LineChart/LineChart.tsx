@@ -86,8 +86,7 @@ function LineChart({ tags, user } : any) {
       <TagSearch selectedTags={selectedTags} setSelectedTags={setSelectedTags} allTags={tags}></TagSearch>
       <Wrapper>
         <Container>
-          {/* <ResponsiveContainer width="100%" height="100%"> */}
-          <LineRechart width={500} height={300} data={chartData}>
+          {chartData.length > 0 ? (<LineRechart width={500} height={300} data={chartData}>
             <CartesianGrid strokeDasharray="1 2" />
             <XAxis dataKey="name" />
             <YAxis />
@@ -105,8 +104,7 @@ function LineChart({ tags, user } : any) {
               stroke="#82ca9d"
               strokeDasharray="3 4 5 2"
             />
-          </LineRechart>
-          {/* </ResponsiveContainer> */}
+          </LineRechart>) : <center><p>Please select topics to view data</p></center>}
         </Container>
       </Wrapper>
     </>

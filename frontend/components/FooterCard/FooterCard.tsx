@@ -11,7 +11,7 @@ function FooterCard() {
     <Wrapper>
       <Container>
         <Content>
-          <Subheading>Bye-bye!</Subheading>
+          <Subheading>Made with lots of caffeine for Hacklytics 2023</Subheading>
         </Content>
       </Container>
     </Wrapper>

@@ -4,12 +4,16 @@ import closeBubble from "../../assets/close_bubble.png";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-export default function TagSearch({ selectedTags, setSelectedTags, allTags } : any) {
+export default function TagSearch({
+  selectedTags,
+  setSelectedTags,
+  allTags,
+}: any) {
   const [input, setInput] = useState("");
   const [suggestedUsers, setSuggestedUsers] = useState([]);
   useEffect(() => {
     if (allTags) {
-      const temp = allTags.filter((tag : any) =>
+      const temp = allTags.filter((tag: any) =>
         tag.toLowerCase().startsWith(input.toLowerCase())
       );
       if (input !== "") {
@@ -53,25 +57,27 @@ export default function TagSearch({ selectedTags, setSelectedTags, allTags } : a
         </div>
       </div>
 
-      <div className={styles.InvitedContainer}>
-        {selectedTags.map((i_u : any) => {
-          return (
-            <div className={styles.invited_bubble} key={i_u}>
-              <div className={styles.bubble_name}>{i_u}</div>
-              <Image
-                src={closeBubble}
-                alt="close bubble"
-                className={styles.bubble_close_button}
-                onClick={() => {
-                  const temp = selectedTags;
-                  temp.splice(temp.indexOf(i_u), 1);
-                  setSelectedTags([...temp]);
-                }}
-              ></Image>
-            </div>
-          );
-        })}
-      </div>
+      {selectedTags.length > 0 && (
+        <div className={styles.InvitedContainer}>
+          {selectedTags.map((i_u: any) => {
+            return (
+              <div className={styles.invited_bubble} key={i_u}>
+                <div className={styles.bubble_name}>{i_u}</div>
+                <Image
+                  src={closeBubble}
+                  alt="close bubble"
+                  className={styles.bubble_close_button}
+                  onClick={() => {
+                    const temp = selectedTags;
+                    temp.splice(temp.indexOf(i_u), 1);
+                    setSelectedTags([...temp]);
+                  }}
+                ></Image>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
