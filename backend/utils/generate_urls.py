@@ -122,3 +122,27 @@ def return_links(text):
         res_links.append(ret_link)
 
     return res_links
+
+def return_neutral(text):
+    text = ' '.join(get_main_topic(text))
+    sent = get_overall_Sentiment(text)
+    res_links = []
+    page = 1
+    min_sent = 0.0
+    ret_link = None
+    
+    if sent != 0.0:
+         while page < 4:
+            t = time.time()
+            news = get_news_results("news on " + text)
+            news.get_page(page)
+            links = news.results()[:10]
+            link_sents = [get_link_sentiment(
+            link['link'], link['title']) for link in links]
+            if min_sent in link_sents:
+               ret_link = links[link_sents.index(min_sent)]['link'] 
+               break;
+            page+=1
+         res_links.append(ret_link)
+            
+    return res_links
