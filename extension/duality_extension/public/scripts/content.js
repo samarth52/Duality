@@ -54,6 +54,12 @@ if (article) {
       transition: 0.2s;
       width: 50px
     }
+
+    .duality_link {
+      text-decoration: none;
+      all: unset;
+      cursor: pointer;
+    }
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,7 +95,7 @@ if (article) {
           .getAttribute("content");
         const added_links_container = `
         <div class="duality_added_links_container">
-          <div id="duality_article_title" class="duality_article_title"><a href="${response.url}">${title}</a></div>
+          <div id="duality_article_title" class="duality_article_title"><a href="${response.url}" class="duality_link">${title}</a></div>
           <img src="${image}" class="duality_link_image"></img>
         </div>
         
