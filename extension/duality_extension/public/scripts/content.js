@@ -62,7 +62,7 @@ if (article) {
   
   // send the paras to the background script
   (async () => {
-    chrome.runtime.sendMessage({ paras: paras }).then((response) => {
+    chrome.runtime.sendMessage({ paras: paras, url: location.href }).then((response) => {
       if (response.type == "success") {
         const openMessage = `
         <div class="duality_open_message">Hear from the other side 👀</div>

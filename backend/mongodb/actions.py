@@ -84,8 +84,7 @@ def check_article(id: str, article_link: str):
 
     return res
     
-def add_article(id: str, article_link: str, article_sentiment: int, article_topics: List[str], opposite_link: str, opposite_sentiment: int, neutral_link: str="",
-                neutral_sentiment: int=0):
+def add_article(id: str, article_link: str, article_sentiment: int, article_topics: List[str], opposite_link: str, opposite_sentiment: int):
     res = db.users.find_one({"_id": id}, {"topics": 1})
     add_topics = []
     update_topics = []
@@ -111,11 +110,6 @@ def add_article(id: str, article_link: str, article_sentiment: int, article_topi
                     "link": article_link,
                     "sentiment": article_sentiment,
                     "topics": article_topics,
-                },
-                "neutral": {
-                    "link": neutral_link,
-                    "sentiment": neutral_sentiment,
-                    "visited": False,
                 },
                 "opposite": {
                     "link": opposite_link,

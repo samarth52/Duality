@@ -21,32 +21,12 @@ schema = {"$jsonSchema": {
                             },
                         },
                     },
-                    "neutral": {
-                        "bsonType": "object",
-                        "properties": {
-                            "link": {"type": "string"},
-                            "sentiment": {"type": "number"},
-                            "visited": {"type": "boolean"},
-                            # "topics": {
-                            #     "type": "array",
-                            #     "items": {
-                            #         "type": "string",
-                            #     }
-                            # },
-                        },
-                    },
                     "opposite": {
                         "bsonType": "object",
                         "properties": {
                             "link": {"type": "string"},
                             "sentiment": {"type": "number"},
                             "visited": {"type": "boolean"},
-                            # "topics": {
-                            #     "type": "array",
-                            #     "items": {
-                            #         "type": "string",
-                            #     },
-                            # },
                         },
                     },
                 },
