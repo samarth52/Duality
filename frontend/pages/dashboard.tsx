@@ -66,7 +66,7 @@ export default function Dashboard() {
             <WelcomeCard score={dualityRatio[0]} />
             <FlexPartition>
               <LineChart />
-              <BubbleCard />
+              <BubbleCard keyWords={topics} />
             </FlexPartition>
           </ParentGrid>
           <RecapCard />

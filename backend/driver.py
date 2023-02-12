@@ -60,34 +60,32 @@ def new_article():
     id = ObjectId(request_data.get("id", ""))
     article_link = request_data.get("url", "")
     text = request_data.get("text", "")
-
     try:
         res = check_article(id, article_link)
         if (res):
             return success_response({
-                "original_link": article_link,
-                "opposite_link": res["articles"][0]["opposite_link"],
-                "opposite_sentiment": res["articles"][0]["opposite_sentiment"],
+                "originalLink": article_link,
+                "oppositeLink": res["articles"][0]["opposite"]["link"],
+                "oppositeSentiment": res["articles"][0]["opposite"]["sentiment"],
             })
             
         [article_sentiment, article_topics, opposite_link, opposite_sentiment] = get_imp_info(text)
         add_article(id, article_link, article_sentiment, article_topics, opposite_link, opposite_sentiment)
         return success_response({
-            "original_link": article_link,
-            "opposite_link": opposite_link,
-            "opposite_sentiment": opposite_sentiment,
+            "originalLink": article_link,
+            "oppositeLink": opposite_link,
+            "oppositeSentiment": opposite_sentiment,
         })
     except Exception as e:
         return failure_response(str(e), 500)
 
 
-@app.route("/api/dummy_article", methods=["POST"])
-def dummy_article():
-    request_data = json.loads(request.data)
-    article_data = request_data
-    res = return_links(article_data)
-    print(res)
-    return success_response({"data": res})
+# @app.route("/api/dummy_article", methods=["POST"])
+# def dummy_article():
+#     request_data = json.loads(request.data)
+#     article_data = request_data
+#     res = return_links(article_data)
+#     return success_response({"data": res})
 
 
 @app.route("/api/recommendation_click", methods=["POST"])
@@ -139,7 +137,7 @@ def dashboard_data():
         num_visited = 0
         for article in recent_20_articles:
             num_visited += int(article["opposite"]["visited"])
-        duality_ratio = [num_visited / len(recent_20_articles) if len(recent_20_articles) > 0 else 0, num_visited, len(recent_20_articles)]
+        duality_ratio = [num_visited / len(recent_20_articles) * 100 if len(recent_20_articles) > 0 else 0, num_visited, len(recent_20_articles)]
         
         recent_10_articles = articles[:-11:-1]        
         return success_response({

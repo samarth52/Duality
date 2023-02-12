@@ -31,6 +31,22 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
       if (!data.id) {
         return true;
       } else {
+        if (request.type && request.type == "suggestion") {
+          fetch("http://127.0.0.1:8000/api/recommendation_click", {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, *cors, same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+              "Content-Type": "application/json",
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: "follow", // manual, *follow, error
+            referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify({id: data.id, originalLink: request.url}), // body data type must match "Content-Type" header
+          });
+          return true;
+        }
         fetch("http://127.0.0.1:8000/api/new_article", {
           method: "POST", // *GET, POST, PUT, DELETE, etc.
           mode: "cors", // no-cors, *cors, same-origin
@@ -46,15 +62,16 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
         }).then((response) => {
           response.json().then((body) => {
             console.log(body);
-            // fetch(body.data[0])
-            //   .then((response2) => response2.text())
-            //   .then((html) => {
-            //     sendResponse({
-            //       type: "success",
-            //       html: html,
-            //       url: body.data[0],
-            //     });
-            //   });
+            fetch(body.oppositeLink)
+              .then((response2) => response2.text())
+              .then((html) => {
+                sendResponse({
+                  type: "success",
+                  html: html,
+                  url: body.oppositeLink,
+                  originalUrl: request.url,
+                });
+              });
           });
         });
       }

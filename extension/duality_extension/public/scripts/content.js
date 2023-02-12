@@ -89,7 +89,7 @@ if (article) {
           .getAttribute("content");
         const added_links_container = `
         <div class="duality_added_links_container">
-          <div class="duality_article_title"><a href="${response.url}">${title}</a></div>
+          <div id="duality_article_title" class="duality_article_title"><a href="${response.url}">${title}</a></div>
           <img src="${image}" class="duality_link_image"></img>
         </div>
         
@@ -129,6 +129,9 @@ if (article) {
         </style>`;
         const pop = document.querySelector(".duality_popup");
         pop.insertAdjacentHTML("beforeend", added_links_container);
+        document.getElementById("duality_article_title").addEventListener("click", function suggestionHandler() {
+          chrome.runtime.sendMessage({ type: "suggestion", url: response.originalUrl });
+        })
       }
     });
   })();

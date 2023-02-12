@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-
+import Link from "next/link";
 import { styled } from "@/stitches.config";
 import { Command } from "cmdk";
 import { motion } from "framer-motion";
@@ -20,18 +20,27 @@ const fadeInOut = {
   },
 };
 
-export function Search({ articles } : any) {
+export function Search({ articles }: any) {
   const [value, setValue] = useState("linear");
   const inputRef = useRef<HTMLInputElement | null>(null);
   const listRef = useRef(null);
   const [loading, setLoading] = useState(false);
-  const [items, setItems] = useState([]);
+  const [items, setItems] = useState<any>([]);
 
   useEffect(() => {
     inputRef?.current?.focus();
     async function getItems() {
       setLoading(true);
-      setItems([]);
+      const titles = [];
+      for (const article of articles) {
+        const res = await fetch("/api/metadata", {
+          method: "POST",
+          body: JSON.stringify({ url: article.original.link }),
+        }).then((res) => res.json())
+        titles.push(res);
+      }
+      console.log(titles);
+      setItems(titles);
       setLoading(false);
     }
     getItems();
@@ -50,15 +59,21 @@ export function Search({ articles } : any) {
           }
         >
           <Command>
-            <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-            <Command.Input
-              ref={inputRef}
-              autoFocus
-              placeholder="Search for articles, news, hotdogs, and bitcoin."
-              disabled
-              style={{ cursor: "pointer" }}
-            />
-            <SearchIcon style={{ position: "absolute", right: 25 }} />
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Command.Input
+                ref={inputRef}
+                autoFocus
+                placeholder="Search for articles, news, hotdogs, and bitcoin."
+                disabled
+                style={{ cursor: "pointer" }}
+              />
+              <SearchIcon style={{ position: "absolute", right: 25 }} />
             </div>
           </Command>
         </div>
@@ -102,11 +117,11 @@ export function Search({ articles } : any) {
                       )}
                       {items.map((item: any) => (
                         <Item
-                          key={item.id + item.firstName}
-                          value={item.firstName}
+                          key={item.ogUrl}
+                          value={item.ogTitle}
                         >
                           <span>
-                            {item.firstName} {item.lastName}
+                            <a href={item.ogUrl} target="_blank" style={{textDecoration: 'none', all: "unset"}}>{item.ogTitle}</a>
                           </span>
                         </Item>
                       ))}

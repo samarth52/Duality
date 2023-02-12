@@ -41,7 +41,7 @@ function WelcomeCard({ score } : { score: number }) {
     };
     const dial: any = new AnimatedSVGDial("#dial-welcome-card", params);
     dial.animate();
-  }, [score]);
+  }, []);
 
   return (
     <Wrapper>
