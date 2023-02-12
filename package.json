@@ -6,8 +6,5 @@
     "startb": "conda activate duality && python -m backend.driver",
     "startf": "cd frontend && yarn dev"
   },
-  "dependencies": {
-    "firebase": "^9.17.1",
-    "open-graph-scraper": "^5.0.5"
-  }
+  "dependencies": {}
 }
