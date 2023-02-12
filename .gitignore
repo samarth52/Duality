@@ -1,2 +1,4 @@
-*/.env
-*/white-outlook-377503-9e478fd938eb.json
+**/.env
+**/white-outlook-377503-9e478fd938eb.json
+
+**/node_modules/*

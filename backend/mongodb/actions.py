@@ -116,3 +116,7 @@ def recommendation_click(id: str, original_link: str, sentiment: float):
     db.users.update_one({
         "_id": id, "articles.neutral.link": original_link
     }, {"_id": 1})
+
+def get_topic_sentiments(id: str, topic: str):
+    res = db.users.find_one({"_id": id, "topics.topic": topic}, {"_id": 0, "topics": {"$elemMatch": {"topic": topic}}})
+    return res and res["topics"][0]

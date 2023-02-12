@@ -3,7 +3,7 @@ import Image from "next/image";
 import { styled } from "@/stitches.config";
 import Spacer from "@/components/Spacer";
 import logo from "@/assets/icon.png";
-
+import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 import { motion } from "framer-motion";
 
 import Navbar from "@/components/Navbar";
@@ -23,11 +23,11 @@ const fadeInOut = {
 
 export default function Dashboard() {
   return (
-    <Hero>
-      <Navbar />
-      <Spacer size={20} />
-      <Search />
-    </Hero>
+    <PrivateRoute>
+      <Hero>
+        <Navbar />
+      </Hero>
+    </PrivateRoute>
   );
 }
 
@@ -38,7 +38,7 @@ const Hero = styled("div", {
   marginRight: "auto",
   marginTop: "8vh",
   width: "60vw",
-  gap: 10
+  gap: 10,
 });
 
 const Title = styled("h1", {

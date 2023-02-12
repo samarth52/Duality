@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-
-
-=======
->>>>>>> cb4a09a010d63c18c47f3e0842dd14d1bcf6dc27
 import os
 import json
 from dotenv import load_dotenv
@@ -16,15 +11,10 @@ from google.auth.transport import requests
 load_dotenv()
 client = MongoClient(os.getenv("MONGO_URI"))
 
-<<<<<<< HEAD
-from backend.mongodb.actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article
 from backend.utils.generate_urls import return_links
-=======
-from backend.utils.generate_urls import return_links
-from backend.mongodb.actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article
+from backend.mongodb.actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article, get_topic_sentiments
 
 
->>>>>>> cb4a09a010d63c18c47f3e0842dd14d1bcf6dc27
 # from backend.middleware import middleware
 
 app = Flask(
@@ -121,11 +111,10 @@ def new_article():
 
 @app.route("/api/dummy_article", methods=["POST"])
 def dummy_article():
-    request_data = request.get_json()
-    print(request_data)
-    # id = request_data.get("id", default="", type=ObjectId)
+    request_data = json.loads(request.data)
     article_data = request_data
     res = return_links(article_data)
+    print(res)
     return success_response({"data": res})
 
 
@@ -137,11 +126,20 @@ def recommendation_click():
     sentiment = float(request_data.get("sentiment", 0.0))
     return success_response()
 
+@app.route("/api/sentiment_graph", methods=["POST"])
+def sentiment_graph():
+    request_data = json.loads(request.data)
+    id = ObjectId(request_data.get("id", ""))
+    
+    # get_topic_sentiments(id, topic)
+    # {'topic': 't2', 'sentiments': [4, 4.5], 'absolute_sentiment': 6.5}
+    # enter your code here
+    
+    return success_response()
 
 @app.route("/api/test", methods=["GET"])
 def test():
-    add_article("63e7c2b7c76d10c07348c2f3", "g", 5,
-                ["t4", "t2", "t3"], "b", 3, "c", 2)
+    print(get_topic_sentiments(ObjectId("63e7c2b7c76d10c07348c2f3"), "t2"))
     return success_response()
 
 
