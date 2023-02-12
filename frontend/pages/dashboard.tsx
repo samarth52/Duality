@@ -62,7 +62,7 @@ export default function Dashboard() {
         <ParentGrid>
           <WelcomeCard score={dualityRatio[0]} />
             <FlexPartition>
-            <LineChart />
+            <LineChart tags={[...topics.map((topic : any) => topic[0])]} user={user}/>
             <BubbleCard keyWords={topics} />
             </FlexPartition>
         </ParentGrid>

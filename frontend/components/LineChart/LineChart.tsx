@@ -1,5 +1,5 @@
 import { styled } from "stitches.config";
-
+import TagSearch from "../TagSearch/TagSearch";
 import {
   LineChart as LineRechart,
   Line,
@@ -10,8 +10,11 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { useEffect, useState } from "react";
 
-function LineChart() {
+function LineChart({ tags, user } : any) {
+  const [selectedTags, setSelectedTags] = useState<any>([])
+  const [chartData, setChartData] = useState<any>([])
   const data = [
     {
       name: "Page A",
@@ -57,15 +60,34 @@ function LineChart() {
     },
   ];
 
+  useEffect(() => {
+    console.log(selectedTags)
+    console.log(user)
+    fetch('http://127.0.0.1:8000/api/sentiment_graph', {
+      method: 'POST',
+      body: JSON.stringify({ topics: selectedTags, id: user})
+    }).then((
+      resp => {
+        resp.json().then(data => {
+          setChartData(data.avgSentiment.map((item: any, index : any) => {
+            return {
+              name: index + 1,
+              pv: item,
+              amt: item
+            }
+          }))
+        })
+      }
+    ))
+  }, [selectedTags])
+
   return (
-    <Wrapper>
-      <Container>
-        {/* <ResponsiveContainer width="100%" height="100%"> */}
-          <LineRechart
-            width={500}
-            height={300}
-            data={data}
-          >
+    <>
+      <TagSearch selectedTags={selectedTags} setSelectedTags={setSelectedTags} allTags={tags}></TagSearch>
+      <Wrapper>
+        <Container>
+          {/* <ResponsiveContainer width="100%" height="100%"> */}
+          <LineRechart width={500} height={300} data={chartData}>
             <CartesianGrid strokeDasharray="1 2" />
             <XAxis dataKey="name" />
             <YAxis />
@@ -84,9 +106,10 @@ function LineChart() {
               strokeDasharray="3 4 5 2"
             />
           </LineRechart>
-        {/* </ResponsiveContainer> */}
-      </Container>
-    </Wrapper>
+          {/* </ResponsiveContainer> */}
+        </Container>
+      </Wrapper>
+    </>
   );
 }
 

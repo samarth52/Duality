@@ -101,17 +101,15 @@ def sentiment_graph():
     request_data = json.loads(request.data)
     id = ObjectId(request_data.get("id", ""))
     topics = list(request_data.get("topics", []))
-    
     num_lists = len(topics)
     topics = [get_topic_sentiments(id, topic)["sentiments"] for topic in topics]
-
-    lengths = [len(l["sentiments"]) for l in topics]
-    max_num_elements = max(lengths)
+    lengths = [len(l) for l in topics]
+    max_num_elements = max(lengths) if len(lengths) > 0 else 0
     sums = [0] * max_num_elements
     for i in range(max_num_elements):
         for j in range(num_lists):
-            if i < len(lengths[j]):
-                sums[i] += topics[j]['sentiments'][i]
+            if i < lengths[j]:
+                sums[i] += topics[j][i]
     avg_sentiment = [sum / num_lists for sum in sums]
     
     return success_response({"avgSentiment": avg_sentiment})
