@@ -10,16 +10,15 @@ import logo from "@/assets/icon.png";
 import Image from "next/image";
 
 const fadeInOut = {
-  hidden: { scale: .8, opacity: 0 },
+  hidden: { opacity: 0 },
   visible: {
-    scale: 1,
     opacity: 1,
     transition: {
-      delay: 0.5,
-      duration: 1,
+      delay: 0.2,
+      duration: 0.4,
     },
   },
-}
+};
 
 export function Search() {
   const [value, setValue] = useState("linear");
@@ -42,15 +41,27 @@ export function Search() {
 
   return (
     <Dialog.Root>
-      <Dialog.Trigger asChild onClick={() => {}}>
-        <div className="searchbar dark">
+      <Dialog.Trigger asChild>
+        <div
+          className="searchbar dark"
+          style={
+            {
+              cursor: "pointer",
+              "--padding-value": "18px",
+            } as React.CSSProperties
+          }
+        >
           <Command>
+            <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
             <Command.Input
               ref={inputRef}
               autoFocus
               placeholder="Search for articles, news, hotdogs, and bitcoin."
               disabled
+              style={{ cursor: "pointer" }}
             />
+            <SearchIcon style={{ position: "absolute", right: 25 }} />
+            </div>
           </Command>
         </div>
       </Dialog.Trigger>
@@ -65,68 +76,71 @@ export function Search() {
           className="normalContent"
         >
           <motion.div initial="hidden" animate="visible" variants={fadeInOut}>
-          <Dialog.Content
-            style={{
-              width: "60vw",
-              position: "fixed",
-              left: "50%",
-              top: "50%",
-              transform: "translate(-50%, -50%)",
-              boxShadow:
-                "hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px",
-              
-            }}
-          >
-            <div className="searchbar dark">
-              <Command value={value} onValueChange={(v) => setValue(v)}>
-                <div cmdk-duality-top-shine="" />
-                <Command.Input
-                  ref={inputRef}
-                  autoFocus
-                  placeholder="Search for articles, news, hotdogs, and bitcoin."
-                />
-                <hr cmdk-duality-loader="" />
-                <Command.List ref={listRef}>
-                  <Command.Empty>No results found.</Command.Empty>
-                  <Command.Group heading="Suggestions">
-                    {loading && <Command.Loading>Wait a min..</Command.Loading>}
-                    {items.map((item: any) => (
-                      <Item
-                        key={item.id + item.firstName}
-                        value={item.firstName}
-                      >
-                        {item.firstName} {item.lastName}
+            <Dialog.Content
+              style={{
+                width: "60vw",
+                position: "fixed",
+                left: "50%",
+                top: "50%",
+                transform: "translate(-50%, -50%)",
+                boxShadow:
+                  "hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px",
+              }}
+            >
+              <div className="searchbar dark">
+                <Command value={value} onValueChange={(v) => setValue(v)}>
+                  <div cmdk-duality-top-shine="" />
+                  <Command.Input
+                    ref={inputRef}
+                    autoFocus
+                    placeholder="Search for articles, news, hotdogs, and bitcoin."
+                  />
+                  <hr cmdk-duality-loader="" />
+                  <Command.List ref={listRef}>
+                    <Command.Empty>No results found.</Command.Empty>
+                    <Command.Group heading="Suggestions">
+                      {loading && (
+                        <Command.Loading>Wait a min..</Command.Loading>
+                      )}
+                      {items.map((item: any) => (
+                        <Item
+                          key={item.id + item.firstName}
+                          value={item.firstName}
+                        >
+                          <span>
+                            {item.firstName} {item.lastName}
+                          </span>
+                        </Item>
+                      ))}
+                    </Command.Group>
+                    <Command.Group heading="Commands">
+                      <Item isCommand value="Clipboard History">
+                        Delete History
                       </Item>
-                    ))}
-                  </Command.Group>
-                  <Command.Group heading="Commands">
-                    <Item isCommand value="Clipboard History">
-                      Delete History
-                    </Item>
-                  </Command.Group>
-                </Command.List>
+                    </Command.Group>
+                  </Command.List>
 
-                <div
-                  cmdk-duality-footer=""
-                  style={{ display: "flex", alignItems: "center", gap: 8 }}
-                >
-                  <Image src={logo} alt="logo" width={20} height={20} />
-                  <p
-                    style={{
-                      fontSize: ".7rem",
-                      fontWeight: 900,
-                      color: "#fff",
-                      pointerEvents: "none",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.15em",
-                    }}
+                  <div
+                    cmdk-duality-footer=""
+                    style={{ display: "flex", alignItems: "center", gap: 8 }}
                   >
-                    Duality
-                  </p>
-                </div>
-              </Command>
-            </div>
-          </Dialog.Content>
+                    <Image src={logo} alt="logo" width={20} height={20} />
+                    <p
+                      style={{
+                        fontSize: ".7rem",
+                        fontWeight: 900,
+                        color: "#fff",
+                        pointerEvents: "none",
+                        textTransform: "uppercase",
+                        letterSpacing: "0.15em",
+                      }}
+                    >
+                      Duality
+                    </p>
+                  </div>
+                </Command>
+              </div>
+            </Dialog.Content>
           </motion.div>
         </Dialog.Overlay>
       </Dialog.Portal>

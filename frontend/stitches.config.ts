@@ -14,9 +14,9 @@ export const {
     colors: {
       background: '#101010',
       white: 'white',
+      gray: "#aaa",
       grayOne: '#181818',
       grayText: '#383838',
-
     },
     fonts: {
       system: 'system-ui',
