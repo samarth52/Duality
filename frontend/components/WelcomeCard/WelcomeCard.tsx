@@ -67,7 +67,7 @@ function WelcomeCard({ score } : { score: number }) {
               }}
             >
               <SmallSubheading>your duality score</SmallSubheading>
-              <SmallHeading>{score}%</SmallHeading>
+              <SmallHeading>{parseFloat(score.toFixed(2))}%</SmallHeading>
             </div>
           </div>
         </Content>

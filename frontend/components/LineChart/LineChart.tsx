@@ -72,8 +72,8 @@ function LineChart({ tags, user } : any) {
           setChartData(data.avgSentiment.map((item: any, index : any) => {
             return {
               name: index + 1,
-              pv: item,
-              amt: item
+              pv: parseFloat(item.toFixed(2)),
+              amt: parseFloat(item.toFixed(2))
             }
           }))
         })
