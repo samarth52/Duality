@@ -37,7 +37,7 @@ def get_user(id: str):
     return db.users.find_one({"_id": id})
 
 def check_article(id: str, article_link: str):
-    return db.users.find_one({
+    res = db.users.find_one({
         "_id": id,
         "articles.original.link": article_link
     }, {
@@ -48,9 +48,44 @@ def check_article(id: str, article_link: str):
             }
         }
     })
+    
+    article_sentiment = res["articles"]["original"]["sentiment"]
+    
+    for topic in res["articles"]["original"]["topics"]:
+        res2 = db.users.find_one({
+            "_id": id,
+            "topics.topic": topic,
+        }, {
+            "_id": 0,
+            "topics": {
+                "$elemMatch": {
+                    "topic": topic,
+                },
+            },
+        })
+        
+        count, sentiment, absolute_sentiment = len(res2["topic"]["sentiments"]), res2["topic"]["sentiments"][-1], res2["topic"]["absolute_sentiment"]
+        
+        db.users.update_one({
+            "_id": id,
+            "topics": {
+                "$elemMatch": {
+                    "topic": topic
+                }
+            }
+        }, {
+            "$set": {
+                "topics.$.absolute_sentiment": (absolute_sentiment * count + abs(article_sentiment)) / (count + 1),
+            },
+            "$push": {
+                "topics.$.sentiments": (sentiment * count + article_sentiment) / (count + 1),
+            },
+        })
 
-def add_article(id: str, article_link: str, article_sentiment: int, article_topics: List[str], neutral_link: str,
-                neutral_sentiment: int, opposite_link: str, opposite_sentiment: int):
+    return res
+    
+def add_article(id: str, article_link: str, article_sentiment: int, article_topics: List[str], opposite_link: str, opposite_sentiment: int, neutral_link: str="",
+                neutral_sentiment: int=0):
     res = db.users.find_one({"_id": id}, {"topics": 1})
     add_topics = []
     update_topics = []
@@ -67,7 +102,6 @@ def add_article(id: str, article_link: str, article_sentiment: int, article_topi
         else:
             add_topics.append(
                 {"topic": article_topic, "sentiments": [article_sentiment], "absolute_sentiment": abs(article_sentiment)})
-
     db.users.update_one({
         "_id": id,
     }, {
@@ -111,12 +145,20 @@ def add_article(id: str, article_link: str, article_sentiment: int, article_topi
             },
         })
 
-def recommendation_click(id: str, original_link: str, sentiment: float):
-    
-    db.users.update_one({
-        "_id": id, "articles.neutral.link": original_link
-    }, {"_id": 1})
-
 def get_topic_sentiments(id: str, topic: str):
     res = db.users.find_one({"_id": id, "topics.topic": topic}, {"_id": 0, "topics": {"$elemMatch": {"topic": topic}}})
     return res and res["topics"][0]
+
+def visited_opposite(id: str, original_link: str):
+    db.users.update_one({
+        "_id": id,
+        "articles": {
+            "$elemMatch": {
+                "article": original_link,
+            }
+        }
+    }, {
+        "$set": {
+            "articles.$.opposite.visited": True,
+        },
+    })
