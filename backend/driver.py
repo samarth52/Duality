@@ -12,7 +12,7 @@ load_dotenv()
 client = MongoClient(os.getenv("MONGO_URI"))
 
 from backend.utils.generate_urls import return_links
-from backend.mongodb.actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article
+from backend.mongodb.actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article, get_topic_sentiments
 
 
 # from backend.middleware import middleware
@@ -126,11 +126,20 @@ def recommendation_click():
     sentiment = float(request_data.get("sentiment", 0.0))
     return success_response()
 
+@app.route("/api/sentiment_graph", methods=["POST"])
+def sentiment_graph():
+    request_data = json.loads(request.data)
+    id = ObjectId(request_data.get("id", ""))
+    
+    # get_topic_sentiments(id, topic)
+    # {'topic': 't2', 'sentiments': [4, 4.5], 'absolute_sentiment': 6.5}
+    # enter your code here
+    
+    return success_response()
 
 @app.route("/api/test", methods=["GET"])
 def test():
-    add_article("63e7c2b7c76d10c07348c2f3", "g", 5,
-                ["t4", "t2", "t3"], "b", 3, "c", 2)
+    print(get_topic_sentiments(ObjectId("63e7c2b7c76d10c07348c2f3"), "t2"))
     return success_response()
 
 
