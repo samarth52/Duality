@@ -45,7 +45,7 @@ function BubbleCard() {
       setKeywords(data);
       setMaxVal(Math.max(...values));
     }
-  }, [keywords]);
+  }, []);
 
   return (
     <Wrapper>
