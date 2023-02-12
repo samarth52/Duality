@@ -9,13 +9,13 @@ import { getAuth } from "firebase/auth";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyD1tiDrED4pxeQTvo3MzgoJu2bbZLivQq4",
-  authDomain: "duality-auth.firebaseapp.com",
-  projectId: "duality-auth",
-  storageBucket: "duality-auth.appspot.com",
-  messagingSenderId: "528031428168",
-  appId: "1:528031428168:web:7b06c50282baf84c19327d",
-  measurementId: "G-9D71YNC9QL"
+  apiKey: "AIzaSyB9WD4oQzSeo7p0lAbQODwQcQ5OoKQyXtg",
+  authDomain: "white-outlook-377503.firebaseapp.com",
+  projectId: "white-outlook-377503",
+  storageBucket: "white-outlook-377503.appspot.com",
+  messagingSenderId: "962840843955",
+  appId: "1:962840843955:web:2bbc553aaa6abaf54242c6",
+  measurementId: "G-KM5QCQSBN3"
 };
 
 // Initialize Firebase

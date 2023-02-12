@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Reading time",
+  "name": "Duality",
   "version": "1.0",
-  "description": "Add the reading time to Chrome Extension documentation articles",
+  "description": "The browser extension that broadens your news perspective.",
 
   "icons": {
     "16": "images/icon-16.png",
@@ -13,19 +13,22 @@
   "content_scripts": [
     {
       "js": [
-        "scripts/content.js"
+        "scripts/content.js",
+        "scripts/fetch_secret.js"
       ],
       "matches": [
-        "https://*/*"
+        "https://*/*",
+        "http://localhost:3000/dashboard"
       ]
     }
   ],
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "index.html"
   },
   "host_permissions": [
     "https://*/*"
   ],
+  "permissions": ["identity", "storage"],
   "web_accessible_resources": [
     {
       "resources": [ "images/duality_icon.png" ],
@@ -34,5 +37,11 @@
   ],
   "background": {
     "service_worker": "scripts/background.js"
+  },
+  "oauth2": {
+    "client_id": "962840843955-h5n0kbf33277h1cotepr8bd550fvtgot.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/userinfo.email"
+    ]
   }
 }
