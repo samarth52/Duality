@@ -35,15 +35,9 @@ def root(path):
 @app.route("/api/login", methods=["POST"])
 def login():
     request_data = json.loads(request.data)
-    access_token = request_data.get("accessToken", "")
+    uid = request_data.get("uid", "")
     try:
-        idinfo = id_token.verify_oauth2_token(
-            access_token, requests.Request(), os.get_env("GOOGLE_CLIENT_ID"))
-        if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
-            raise ValueError('Wrong issuer.')
-        user_id = idinfo['sub']
-
-        id = login_get_id(user_id)
+        id = login_get_id(uid)
         return success_response({"id": id})
 
     except ValueError:

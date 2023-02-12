@@ -56,6 +56,17 @@ export const App = (props) => {
         });
     });
   };
+
+  const signOut = (e) => {
+    e.preventDefault();
+    auth.signOut();
+    chrome.runtime
+      .sendMessage({ from: "popup", signOut: true })
+      .then((response) => {
+        console.log(response);
+      });
+  };
+
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       setUser(user && user.uid ? user : null);
@@ -68,12 +79,22 @@ export const App = (props) => {
         <img src={img_url} className="duality_icon"></img>
         <h3>duality</h3>
       </div>
-      {user === null ? <div className="duality_sign_in_button_container">
-        <img src={google_url} className="google_icon"></img>
-        <div onClick={signIn} className="duality_sign_in_button">Sign in</div>
-      </div> : <div className="log_greeting">👋 Hello, you're logged in!</div>}
-      
-      
+      {user === null ? (
+        <div className="duality_sign_in_button_container">
+          <img src={google_url} className="google_icon"></img>
+          <div onClick={signIn} className="duality_sign_in_button">
+            Sign in
+          </div>
+        </div>
+      ) : (
+        <>
+          {" "}
+          <div className="log_greeting">👋 Hello, you're logged in!</div>
+          <div onClick={signOut} className="duality_sign_in_button">
+            Sign out
+          </div>
+        </>
+      )}
     </div>
   );
 };

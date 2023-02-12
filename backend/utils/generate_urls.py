@@ -62,9 +62,7 @@ def get_content(link, title):
 
 
 def get_news_results(headline):
-    googlenews = GoogleNews()
-    googlenews = GoogleNews(lang='en', region='US')
-    googlenews = GoogleNews(period='7d')
+    googlenews = GoogleNews(lang="en", region="US", period="7d")
     googlenews.search(headline)
     return googlenews
 
