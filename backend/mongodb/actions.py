@@ -1,8 +1,12 @@
 import os
 from pymongo import MongoClient
 from typing import List
-from backend.mongodb.schema import schema
 from dotenv import load_dotenv
+
+try:
+    from backend.mongodb.schema import schema
+except:
+    import schema
 
 load_dotenv()
 

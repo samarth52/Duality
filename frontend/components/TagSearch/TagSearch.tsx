@@ -26,7 +26,7 @@ export default function TagSearch({ selectedTags, setSelectedTags, allTags } : a
         <div className={styles.search_input_container}>
           <Image src={searchIcon} alt="search icon"></Image>
           <input
-            placeholder="Search for users"
+            placeholder="Search for topics"
             className={styles.search_bar_input}
             value={input}
             onChange={(e) => {

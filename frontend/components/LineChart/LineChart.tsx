@@ -63,7 +63,7 @@ function LineChart({ tags, user } : any) {
   useEffect(() => {
     console.log(selectedTags)
     console.log(user)
-    fetch('http://127.0.0.1:8000/api/sentiment_graph', {
+    fetch('https://backend-yfr22mc5la-ue.a.run.app/api/sentiment_graph', {
       method: 'POST',
       body: JSON.stringify({ topics: selectedTags, id: user})
     }).then((

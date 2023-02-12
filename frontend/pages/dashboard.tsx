@@ -33,12 +33,12 @@ export default function Dashboard() {
   const [dualityRatio, setDualityRatio] = useState<any>();
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/login", {
+    fetch("https://backend-yfr22mc5la-ue.a.run.app/api/login", {
       method: "POST",
       body: JSON.stringify({ uid: currentUser.uid }),
     }).then((resp) => {
       resp.json().then((data) => {
-        fetch(`http://127.0.0.1:8000/api/dashboard_data?id=${data.id}`, {
+        fetch(`https://backend-yfr22mc5la-ue.a.run.app/api/dashboard_data?id=${data.id}`, {
           method: "GET",
         }).then((data2) => {
           data2.json().then((data3) => {
