@@ -39,6 +39,7 @@ export default function TagSearch({ selectedTags, setSelectedTags, allTags } : a
             return !selectedTags.includes(u) ? (
               <div
                 className={styles.suggested_list_row}
+                key={u}
                 onClick={() => {
                   const temp = selectedTags;
                   temp.push(u);
@@ -55,7 +56,7 @@ export default function TagSearch({ selectedTags, setSelectedTags, allTags } : a
       <div className={styles.InvitedContainer}>
         {selectedTags.map((i_u : any) => {
           return (
-            <div className={styles.invited_bubble}>
+            <div className={styles.invited_bubble} key={i_u}>
               <div className={styles.bubble_name}>{i_u}</div>
               <Image
                 src={closeBubble}
