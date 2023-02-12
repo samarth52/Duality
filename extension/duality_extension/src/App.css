@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+.duality_popup_container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  width: 200px;
+  color: white;
+  font-size: 24px;
+  background: #181818;
+}
+
+.duality_icon {
+  width: 60px;
+}
+
+.duality_sign_in_button_container {
+  display: flex;
+  column-gap: 8px;
+  background: #2b2b2b;
+  padding: 8px;
+  margin-bottom: 10px;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 6px;
+  -webkit-box-shadow: 10px 13px 34px -6px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 13px 34px -6px rgba(0,0,0,0.75);
+  box-shadow: 10px 13px 34px -6px rgba(0,0,0,0.75);
+}
+
+.duality_sign_in_button {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.google_icon {
+  width: 20px;
+  height: 20px;
+}
+
+.duality_header {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  column-gap: 4px;
+}
+
+.log_greeting {
+  font-size: 16px;
+  color: #EAEAEA;
+  font-weight: 600;
+  padding: 10px;
+}

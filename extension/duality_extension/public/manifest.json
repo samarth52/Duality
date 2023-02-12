@@ -13,12 +13,10 @@
   "content_scripts": [
     {
       "js": [
-        "scripts/content.js",
-        "scripts/fetch_secret.js"
+        "scripts/content.js"
       ],
       "matches": [
-        "https://*/*",
-        "http://localhost:3000/dashboard"
+        "https://*/*"
       ]
     }
   ],
@@ -31,7 +29,7 @@
   "permissions": ["identity", "storage"],
   "web_accessible_resources": [
     {
-      "resources": [ "images/duality_icon.png" ],
+      "resources": [ "images/duality_icon.png", "images/google_icon.png" ],
       "matches": [ "https://*/*" ]
     }
   ],

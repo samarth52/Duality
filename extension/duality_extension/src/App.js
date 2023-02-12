@@ -1,7 +1,7 @@
 /*global chrome*/
 import logo from "./logo.svg";
 import "./App.css";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import {
@@ -21,7 +21,7 @@ const firebaseConfig = {
   storageBucket: "white-outlook-377503.appspot.com",
   messagingSenderId: "962840843955",
   appId: "1:962840843955:web:2bbc553aaa6abaf54242c6",
-  measurementId: "G-KM5QCQSBN3"
+  measurementId: "G-KM5QCQSBN3",
 };
 
 // Initialize Firebase
@@ -32,7 +32,8 @@ export const auth = getAuth(app);
 
 export const App = (props) => {
   const [user, setUser] = useState(undefined);
-
+  const img_url = chrome.runtime.getURL("images/duality_icon.png");
+  const google_url = chrome.runtime.getURL("images/google_icon.png");
   const signIn = (e) => {
     e.preventDefault();
     chrome.identity.getAuthToken({ interactive: true }, (token) => {
@@ -44,9 +45,11 @@ export const App = (props) => {
       }
       signInWithCredential(auth, GoogleAuthProvider.credential(null, token))
         .then((res) => {
-          chrome.runtime.sendMessage({ uid: res.user.uid, from: "popup" }).then((response) => {
-            console.log(response);
-          })
+          chrome.runtime
+            .sendMessage({ uid: res.user.uid, from: "popup" })
+            .then((response) => {
+              console.log(response);
+            });
         })
         .catch((err) => {
           alert(`SSO ended with an error: ${err}`);
@@ -58,15 +61,21 @@ export const App = (props) => {
       setUser(user && user.uid ? user : null);
     });
   }, []);
-  if (undefined === user) return <h1>Loading...</h1>;
-  if (user != null)
-    return (
-      <div>
-        <h1>Signed in as {user.displayName}.</h1>
-        <button onClick={auth.signOut.bind(auth)}>Sign Out?</button>
+
+  return (
+    <div className="duality_popup_container">
+      <div className="duality_header">
+        <img src={img_url} className="duality_icon"></img>
+        <h3>duality</h3>
       </div>
-    );
-  return <button onClick={signIn}>Sign In with Google</button>;
+      {user === null ? <div className="duality_sign_in_button_container">
+        <img src={google_url} className="google_icon"></img>
+        <div onClick={signIn} className="duality_sign_in_button">Sign in</div>
+      </div> : <div className="log_greeting">👋 Hello, you're logged in!</div>}
+      
+      
+    </div>
+  );
 };
 
 export default App;
