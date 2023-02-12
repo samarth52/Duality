@@ -20,7 +20,7 @@ const fadeInOut = {
   },
 };
 
-export function Search() {
+export function Search({ articles } : any) {
   const [value, setValue] = useState("linear");
   const inputRef = useRef<HTMLInputElement | null>(null);
   const listRef = useRef(null);
@@ -31,9 +31,7 @@ export function Search() {
     inputRef?.current?.focus();
     async function getItems() {
       setLoading(true);
-      const res = await fetch("https://dummyjson.com/users");
-      const data = await res.json();
-      setItems(data.users);
+      setItems([]);
       setLoading(false);
     }
     getItems();

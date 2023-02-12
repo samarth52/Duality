@@ -17,9 +17,41 @@ const avatar = createAvatar(adventurerNeutral, {
 const avatarURI = avatar.toDataUriSync();
 
 export default function Navbar() {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const date = new window.Date();
+  const day = date.getDate();
+  const monthIndex = date.getMonth();
+  const monthName = months[monthIndex];
+
+  let dateString = `${monthName} ${day}`;
+
+  if (day % 10 === 1 && day !== 11) {
+    dateString += "st";
+  } else if (day % 10 === 2 && day !== 12) {
+    dateString += "nd";
+  } else if (day % 10 === 3 && day !== 13) {
+    dateString += "rd";
+  } else {
+    dateString += "th";
+  }
+
   return (
     <Wrapper>
-      <Date>23rd January</Date>
+      <Date>{dateString}</Date>
       <Logo>
         <Image src={logo} alt="logo" width={50} height={50} draggable={false} />
         <Spacer size={15} axis="horizontal" />

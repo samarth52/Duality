@@ -2,10 +2,11 @@ import { styled } from "@/stitches.config";
 import Spacer from "@/components/Spacer";
 import PrivateRoute from "@/components/PrivateRoute/PrivateRoute";
 import { motion } from "framer-motion";
-
+import { useAuth } from "@/components/Firebase/Auth";
 import Navbar from "@/components/Navbar";
 import Search from "@/components/Search";
 import WelcomeCard from "@/components/WelcomeCard";
+import { useEffect, useState } from "react";
 
 const fadeInOut = {
   hidden: { scale: 0.8, opacity: 0 },
@@ -20,19 +21,48 @@ const fadeInOut = {
 };
 
 export default function Dashboard() {
-  return (
+  const { currentUser } = useAuth();
+  const [user, setUser] = useState<string>();
+  const [articles, setArticles] = useState<any>([]);
+  const [topics, setTopics] = useState<any>([]);
+  const [avgSentiment, setAvgSentiment] = useState<any>();
+  const [dualityRatio, setDualityRatio] = useState<any>();
+
+  useEffect(() => {
+    fetch("http://127.0.0.1:8000/api/login", {
+      method: "POST",
+      body: JSON.stringify({ uid: currentUser.uid }),
+    }).then((resp) => {
+      resp.json().then((data) => {
+        fetch(`http://127.0.0.1:8000/api/dashboard_data?id=${data.id}`, {
+          method: "GET",
+        }).then((data2) => {
+          data2.json().then((data3) => {
+            console.log(data3)
+            setUser(data.id);
+            setArticles(data3.recentArticles);
+            setTopics(data3.topicFrequency);
+            setAvgSentiment(data3.avgSentiment);
+            setDualityRatio(data3.dualityRatio);
+          });
+        });
+      });
+    });
+  }, []);
+
+  return user ? (
     <PrivateRoute>
       <Hero>
         <Navbar />
         <Spacer size={15} />
-        <Search />
+        <Search articles={articles}/>
         <Spacer size={15} />
         <ParentGrid>
-            <WelcomeCard />
+          <WelcomeCard score={dualityRatio[0]} />
         </ParentGrid>
       </Hero>
     </PrivateRoute>
-  );
+  ) : null;
 }
 
 const Hero = styled("div", {
