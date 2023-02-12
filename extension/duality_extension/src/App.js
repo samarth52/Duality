@@ -89,7 +89,7 @@ export const App = (props) => {
         <>
           {" "}
           <div className="log_greeting">👋 Hello, you're logged in!</div>
-          <div onClick={signOut} className="duality_sign_in_button">
+          <div onClick={signOut} className="duality_sign_out_button">
             Sign out
           </div>
         </>
