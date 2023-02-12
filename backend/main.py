@@ -1,4 +1,4 @@
-import os
+import os, sys
 import json
 from dotenv import load_dotenv
 from flask import Flask, request, send_from_directory
@@ -9,10 +9,15 @@ from bson.objectid import ObjectId
 load_dotenv()
 client = MongoClient(os.getenv("MONGO_URI"))
 
-from backend.utils.generate_urls import return_links
-from backend.utils.RetValues import get_imp_info
-from backend.mongodb.actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article, get_topic_sentiments, visited_opposite
-
+try:
+    from backend.utils.RetValues import get_imp_info
+    from backend.mongodb.actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article, get_topic_sentiments, visited_opposite
+except:
+    sys.path.append(os.path.join(os.path.dirname(__file__), "utils"))
+    from RetValues import get_imp_info
+    sys.path.append(os.path.join(os.path.dirname(__file__), "mongodb"))
+    from actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article, get_topic_sentiments, visited_opposite
+    
 app = Flask(
     __name__,
     static_folder=os.path.join(
@@ -101,8 +106,10 @@ def sentiment_graph():
     request_data = json.loads(request.data)
     id = ObjectId(request_data.get("id", ""))
     topics = list(request_data.get("topics", []))
+    
     num_lists = len(topics)
     topics = [get_topic_sentiments(id, topic)["sentiments"] for topic in topics]
+
     lengths = [len(l) for l in topics]
     max_num_elements = max(lengths) if len(lengths) > 0 else 0
     sums = [0] * max_num_elements
@@ -162,4 +169,4 @@ def failure_response(message: str = "", status_code: int = 400):
 
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=8000)
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8000)))

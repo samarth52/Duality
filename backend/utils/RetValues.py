@@ -1,4 +1,7 @@
-import backend.utils.generate_urls as generate_urls
+try:
+    import backend.utils.generate_urls as generate_urls
+except:
+    import generate_urls
 
 def get_imp_info(body: str):
     imp_values=[]

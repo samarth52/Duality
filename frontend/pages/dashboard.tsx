@@ -33,12 +33,12 @@ export default function Dashboard() {
   const [dualityRatio, setDualityRatio] = useState<any>();
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/login", {
+    fetch("https://backend-yfr22mc5la-ue.a.run.app/api/login", {
       method: "POST",
       body: JSON.stringify({ uid: currentUser.uid }),
     }).then((resp) => {
       resp.json().then((data) => {
-        fetch(`http://127.0.0.1:8000/api/dashboard_data?id=${data.id}`, {
+        fetch(`https://backend-yfr22mc5la-ue.a.run.app/api/dashboard_data?id=${data.id}`, {
           method: "GET",
         }).then((data2) => {
           data2.json().then((data3) => {
@@ -61,17 +61,16 @@ export default function Dashboard() {
         <Spacer size={15} />
         <Search articles={articles} />
         <Spacer size={15} />
-
-        <ParentGrid>
-          <WelcomeCard score={dualityRatio[0]} />
-          <FlexPartition>
-            <LineChart />
+        <MegaFlex>
+          <ParentGrid>
+            <WelcomeCard score={dualityRatio[0]} />
+            <FlexPartition>
+            <LineChart tags={[...topics.map((topic : any) => topic[0])]} user={user}/>
             <BubbleCard keyWords={topics} />
-          </FlexPartition>
-        </ParentGrid>
-
-        <Spacer size={15} />
-        <RecapCard />
+            </FlexPartition>
+          </ParentGrid>
+          <RecapCard />
+        </MegaFlex>
         <Spacer size={15} />
         <FooterCard />
       </Hero>

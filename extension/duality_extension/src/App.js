@@ -1,5 +1,4 @@
 /*global chrome*/
-import logo from "./logo.svg";
 import "./App.css";
 import { useState, useEffect } from "react";
 // Import the functions you need from the SDKs you need
@@ -76,12 +75,12 @@ export const App = (props) => {
   return (
     <div className="duality_popup_container">
       <div className="duality_header">
-        <img src={img_url} className="duality_icon"></img>
+        <img src={img_url} className="duality_icon" alt="Article Thumbnail"></img>
         <h3>duality</h3>
       </div>
       {user === null ? (
         <div className="duality_sign_in_button_container">
-          <img src={google_url} className="google_icon"></img>
+          <img src={google_url} className="google_icon" alt="Google Icon"></img>
           <div onClick={signIn} className="duality_sign_in_button">
             Sign in
           </div>
@@ -90,7 +89,7 @@ export const App = (props) => {
         <>
           {" "}
           <div className="log_greeting">👋 Hello, you're logged in!</div>
-          <div onClick={signOut} className="duality_sign_in_button">
+          <div onClick={signOut} className="duality_sign_out_button">
             Sign out
           </div>
         </>

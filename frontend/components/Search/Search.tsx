@@ -37,7 +37,9 @@ export function Search({ articles }: any) {
           method: "POST",
           body: JSON.stringify({ url: article.original.link }),
         }).then((res) => res.json())
-        titles.push(res);
+        if (res.success) {
+          titles.push(res.payload);
+        }
       }
       console.log(titles);
       setItems(titles);
