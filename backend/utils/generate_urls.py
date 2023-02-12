@@ -62,9 +62,7 @@ def get_content(link, title):
 
 
 def get_news_results(headline):
-    googlenews = GoogleNews()
-    googlenews = GoogleNews(lang='en', region='US')
-    googlenews = GoogleNews(period='7d')
+    googlenews = GoogleNews(lang="en", region="US", period="7d")
     googlenews.search(headline)
     return googlenews
 
@@ -146,3 +144,26 @@ def return_neutral(text):
          res_links.append(ret_link)
             
     return res_links
+
+def get_summary(url: str):
+    page = requests.get(url)
+    main_info = get_content(url,"t")
+    text = main_info
+    document1 = types.Document(
+        content=text,
+        type=language_v1.Document.Type.PLAIN_TEXT
+    )
+    response = client.annotate_text(document1, features={
+    'extract_entity_sentiment': False,
+    'extract_syntax': False,
+    'extract_document_sentiment': False,
+    'summarize': True
+     })
+    
+    summary = response.sentences
+
+# Print the summary
+    # print("Summary:")
+    # for sentence in summary:
+    #     print(sentence.text.content)
+    return (sentence.text.content for sentence in summary)

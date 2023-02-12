@@ -5,13 +5,12 @@ from flask import Flask, request, send_from_directory
 from flask_cors import CORS
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from google.oauth2 import id_token
-from google.auth.transport import requests
 
 load_dotenv()
 client = MongoClient(os.getenv("MONGO_URI"))
 
 from backend.utils.generate_urls import return_links
+from backend.utils.RetValues import get_imp_info
 from backend.mongodb.actions import add_validator, recreate_collection, login_get_id, get_user, check_article, add_article, get_topic_sentiments, visited_opposite
 
 app = Flask(
@@ -35,15 +34,9 @@ def root(path):
 @app.route("/api/login", methods=["POST"])
 def login():
     request_data = json.loads(request.data)
-    access_token = request_data.get("accessToken", "")
+    uid = request_data.get("uid", "")
     try:
-        idinfo = id_token.verify_oauth2_token(
-            access_token, requests.Request(), os.get_env("GOOGLE_CLIENT_ID"))
-        if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
-            raise ValueError('Wrong issuer.')
-        user_id = idinfo['sub']
-
-        id = login_get_id(user_id)
+        id = login_get_id(uid)
         return success_response({"id": id})
 
     except ValueError:
@@ -65,24 +58,20 @@ def scripts():
 def new_article():
     request_data = json.loads(request.data)
     id = ObjectId(request_data.get("id", ""))
-    article_link = request_data.get("link", "")
+    article_link = request_data.get("url", "")
+    text = request_data.get("text", "")
 
     try:
         res = check_article(id, article_link)
         if (res):
             return success_response({
-                "neutral_link": res["articles"][0]["neutral_link"],
-                "neutral_sentiment": res["articles"][0]["neutral_sentiment"],
+                "original_link": article_link,
                 "opposite_link": res["articles"][0]["opposite_link"],
                 "opposite_sentiment": res["articles"][0]["opposite_sentiment"],
             })
-        # article_sentiment, article_topics, netural_link, neutral_sentiment,opposite_link, opposite_sentiment = generate_urls()
-        neutral_link = opposite_link = "b"
-        article_sentiment = neutral_sentiment = opposite_sentiment = 1
-        article_topics = ["t1", "t2"]
-
-        add_article(id, article_link, article_sentiment, article_topics,
-                    neutral_link, neutral_sentiment, opposite_link, opposite_sentiment)
+            
+        [article_sentiment, article_topics, opposite_link, opposite_sentiment] = get_imp_info(text)
+        add_article(id, article_link, article_sentiment, article_topics, opposite_link, opposite_sentiment)
         return success_response({
             "original_link": article_link,
             "opposite_link": opposite_link,

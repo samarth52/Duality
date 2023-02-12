@@ -59,9 +59,10 @@ if (article) {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">`;
   body.insertAdjacentHTML("beforeend", popup);
+  
   // send the paras to the background script
   (async () => {
-    chrome.runtime.sendMessage({ paras: paras }).then((response) => {
+    chrome.runtime.sendMessage({ paras: paras, url: location.href }).then((response) => {
       if (response.type == "success") {
         const openMessage = `
         <div class="duality_open_message">Hear from the other side 👀</div>
