@@ -130,9 +130,33 @@ def recommendation_click():
 def sentiment_graph():
     request_data = json.loads(request.data)
     id = ObjectId(request_data.get("id", ""))
+    topics = list(request_data.get("topics", []))
+    # sums=[]
+    # for i in range(len(topics[0]['sentiment'])):
+    #     sum_at_index = 0
+    #     for dictionary in topics:
+    #         for key, value in dictionary.items():
+    #           if key == 'sentiment':
+    #              sum_at_index += value[i]
+    #     sums.append(sum_at_index/len(topics))
+    
+    num_lists = len(topics)
+    # num_elements = len(topics[0]['sentiments'])
+    max_num_elements = max([len(l['sentiments']) for l in topics])
+    sums = [0] * max_num_elements
+    for i in range(max_num_elements):
+        for j in range(num_lists):
+            if i < len(topics[j]['sentiments']):
+                sums[i] += topics[j]['sentiments'][i]
+    avg_sentiment = [sum / num_lists for sum in sums]
+    print (avg_sentiment)
+               
+   
+        
+        
     
     # get_topic_sentiments(id, topic)
-    # {'topic': 't2', 'sentiments': [4, 4.5], 'absolute_sentiment': 6.5}
+    # {'topic': 't2', 'sentiments': [4, 4.5], 'absolute_sentiment': 4.5}
     # enter your code here
     
     return success_response()
