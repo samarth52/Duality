@@ -42,16 +42,38 @@ import Image from "next/image";
 //   );
 // }
 
-function RecapCard() {
+function RecapCard({articles}) {
+  const [items, setItems] = useState<any>([]);
+  useEffect(() => {
+    async function getItems() {
+      const nonVisited = [];
+      for (const article of articles) {
+        if (!article.opposite.visited) {
+          const res = await fetch("/api/metadata", {
+            method: "POST",
+            body: JSON.stringify({ url: article.opposite.link }),
+          }).then((res) => res.json())
+          if (res.success) {
+            nonVisited.push({item: res.payload, link: article.opposite.link});
+          }
+        }
+      }
+      setItems(nonVisited);
+    }
+    getItems();
+  }, [articles])
+
   return (
     <Wrapper>
       <Content>
         <Title>
-          Recently, you ignored 5 of our suggestions which could have given you
+          Recently, you ignored {items.length} of our suggestions which could have given you
           different perspectives.{" "} 
         </Title>
         <Spacer size={10} />
-        <Sub>Chinese spy balloon - live: Pentagon retrieving second car size object shot down bby F22 jets over Alaska.</Sub>
+        {items.map(({item, link}) => (
+          <Sub onClick={() => window.open(link, "_blank")} key={item.ogUrl}>{item.ogTitle}</Sub>
+        ))}
       </Content>
     </Wrapper>
   );
