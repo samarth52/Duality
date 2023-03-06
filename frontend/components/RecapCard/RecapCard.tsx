@@ -3,8 +3,6 @@ import { motion } from "framer-motion";
 import { styled } from "@/stitches.config";
 import Spacer from "@/components/Spacer";
 
-import Image from "next/image";
-
 // function Card() {
 //   return (
 //     <div className="card">
@@ -43,7 +41,7 @@ import Image from "next/image";
 // }
 
 function RecapCard({articles} : {articles: any}) {
-  const [items, setItems] = useState<any>([]);
+  const [items, setItems] = useState<{item: any, link: string}[]>([]);
   useEffect(() => {
     async function getItems() {
       const nonVisited = [];
